@@ -1,0 +1,59 @@
+extern crate glfw;
+
+pub mod eup_window {
+    use glfw::{Context, Glfw};
+
+    pub struct EupWindow {
+        glfw_handle: Glfw,
+        window_handle: glfw::PWindow,
+        event_handle: glfw::GlfwReceiver<(f64, glfw::WindowEvent)>,
+    }
+    impl EupWindow {
+        pub fn new(title: &str, w: u32, h: u32, context_version: (u32, u32)) -> EupWindow {
+            let mut glfw = glfw::init(glfw::fail_on_errors).unwrap();
+            glfw.window_hint(glfw::WindowHint::ContextVersion(
+                context_version.0,
+                context_version.1,
+            ));
+            glfw.window_hint(glfw::WindowHint::OpenGlProfile(
+                glfw::OpenGlProfileHint::Core,
+            ));
+            glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+            let (mut window, events) = glfw
+                .create_window(w, h, title, glfw::WindowMode::Windowed)
+                .expect("");
+            window.make_current();
+            window.set_key_polling(true);
+            window.set_framebuffer_size_polling(true);
+            return EupWindow {
+                glfw_handle: glfw,
+                window_handle: window,
+                event_handle: events,
+            };
+        }
+        pub fn load_gl(&mut self) {
+            gl::load_with(|s| self.window_handle.get_proc_address(s) as *const _);
+        }
+        pub fn update(&mut self) {
+            self.glfw_handle.poll_events();
+            self.handle_events();
+            self.window_handle.swap_buffers();
+        }
+        pub fn should_close(&self) -> bool {
+            return self.window_handle.should_close();
+        }
+        fn handle_events(&mut self) {
+            for (_, ev) in glfw::flush_messages(&self.event_handle) {
+                match ev {
+                    glfw::WindowEvent::FramebufferSize(w, h) => unsafe {
+                        gl::Viewport(0, 0, w, h);
+                    },
+                    glfw::WindowEvent::Key(glfw::Key::Escape, _, glfw::Action::Press, _) => {
+                        self.window_handle.set_should_close(true);
+                    }
+                    _ => {}
+                }
+            }
+        }
+    }
+}
