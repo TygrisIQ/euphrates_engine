@@ -1,2 +1,2 @@
-pub mod gl;
+pub mod opengl;
 pub mod window;
