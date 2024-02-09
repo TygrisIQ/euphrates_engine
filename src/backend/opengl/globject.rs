@@ -5,16 +5,16 @@ use gl::{
 
 //use num_traits::Num;
 use std::{ffi::c_void, mem, ptr};
-struct VAO(u32);
-struct VBO(u32);
-struct EBO(u32);
+pub struct VAO(pub u32);
+pub struct VBO(u32);
+pub struct EBO(u32);
 
-enum BufferType {
+pub enum BufferType {
     Vbo,
     Ebo,
 }
 #[allow(dead_code)]
-fn vertex_attrib_pointer(
+pub fn vertex_attrib_pointer(
     start_index: u32,
     size: i32,
     normalized: GLboolean,
@@ -37,7 +37,7 @@ fn vertex_attrib_pointer(
     }
 }
 
-fn upload_data_f32(buffertype: BufferType, data: &[f32]) {
+pub fn upload_data_f32(buffertype: BufferType, data: &[f32]) {
     let size = (data.len() * mem::size_of::<GLfloat>()) as GLsizeiptr;
     let buffer = match buffertype {
         BufferType::Vbo => gl::ARRAY_BUFFER,
@@ -53,7 +53,7 @@ fn upload_data_f32(buffertype: BufferType, data: &[f32]) {
         );
     }
 }
-fn upload_data_i32(buffertype: BufferType, data: &[i32]) {
+pub fn upload_data_i32(buffertype: BufferType, data: &[i32]) {
     let size = (data.len() * mem::size_of::<GLint>()) as GLsizeiptr;
     let buffer = match buffertype {
         BufferType::Vbo => gl::ARRAY_BUFFER,

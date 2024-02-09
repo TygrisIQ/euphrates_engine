@@ -3,18 +3,18 @@ use std::ptr;
 use gl::types::{GLchar, GLenum, GLint};
 use std::ffi::CString;
 extern crate gl;
-struct ShaderHandle {
-    shader: u32,
+pub struct ShaderHandle {
+    pub shader: u32,
     shader_type: GLenum,
 }
 
-struct ShaderProgram(u32);
+pub struct ShaderProgram(u32);
 
-enum ShaderType {
+pub enum ShaderType {
     vertex,
     fragment,
 }
-
+#[allow(dead_code)]
 impl ShaderProgram {
     pub fn new() -> ShaderProgram {
         unsafe { ShaderProgram(gl::CreateProgram()) }
@@ -27,6 +27,11 @@ impl ShaderProgram {
     pub fn link_program(&self) {
         unsafe {
             gl::LinkProgram(self.0);
+        }
+    }
+    pub fn use_program(&self) {
+        unsafe {
+            gl::UseProgram(self.0);
         }
     }
     pub fn check_link_status(&self) {
@@ -45,14 +50,14 @@ impl ShaderProgram {
                 );
                 println!(
                     "ERROR::LINKING::PROGRAM \n {}",
-                    std::str::from_utf8(&info_log).unwrap()
+                    std::str::from_utf8_unchecked(&info_log)
                 );
             }
         }
     }
 }
 impl ShaderHandle {
-    pub fn new(source: &CString, shader_type: ShaderType) -> ShaderHandle {
+    pub fn create_shader(source: &CString, shader_type: ShaderType) -> ShaderHandle {
         unsafe {
             let shader_type = match shader_type {
                 ShaderType::vertex => gl::VERTEX_SHADER,
@@ -68,7 +73,12 @@ impl ShaderHandle {
             };
         }
     }
-    fn check_compile_status(&self) {
+    pub fn delete_shader(&self) {
+        unsafe {
+            gl::DeleteShader(self.shader);
+        }
+    }
+    pub fn check_compile_status(&self) {
         unsafe {
             use std::str;
             let mut success = gl::FALSE as GLint;
@@ -85,7 +95,7 @@ impl ShaderHandle {
                 println!(
                     "ERROR::COMPILING::{}::SHADER \n {}",
                     self.shader_type,
-                    std::str::from_utf8(&infoLog).unwrap()
+                    std::str::from_utf8_unchecked(&infoLog)
                 );
             }
         }
