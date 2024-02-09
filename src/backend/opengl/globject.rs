@@ -2,6 +2,7 @@ use gl::{
     self,
     types::{GLboolean, GLenum, GLfloat, GLint, GLsizei, GLsizeiptr},
 };
+
 //use num_traits::Num;
 use std::{ffi::c_void, mem, ptr};
 struct VAO(u32);
@@ -12,7 +13,7 @@ enum BufferType {
     Vbo,
     Ebo,
 }
-
+#[allow(dead_code)]
 fn vertex_attrib_pointer(
     start_index: u32,
     size: i32,
@@ -21,7 +22,9 @@ fn vertex_attrib_pointer(
     number_of_attributes_per_vertex: usize,
 ) {
     unsafe {
-        let stride = (number_of_attributes_per_vertex * std::mem::size_of::<GLfloat>());
+        let stride = number_of_attributes_per_vertex * std::mem::size_of::<GLfloat>();
+        //TODO! solve the pointer issue
+
         gl::VertexAttribPointer(
             start_index,
             size,
