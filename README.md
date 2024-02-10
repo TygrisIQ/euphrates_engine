@@ -4,4 +4,12 @@
 ___
 *documenting my opengl journey with a "graphics" engine *
 #### run examples 
-`$ cargo run --example [example (window,...)]`
+` $ cargo run --example [example (window,...)] `
+
+### while running examples use keys 
+
+- T : print errors with glfw 
+- Y : print opengl errors 
+- U : Draw in Polygon mode (LINE)
+- I : Cancel Polygon mode (FILL)
+- O : Draw in Polygon mode (Verticies only)

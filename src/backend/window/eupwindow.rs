@@ -51,6 +51,21 @@ pub mod eup_window {
                     glfw::WindowEvent::Key(glfw::Key::Escape, _, glfw::Action::Press, _) => {
                         self.window_handle.set_should_close(true);
                     }
+                    glfw::WindowEvent::Key(glfw::Key::Y, _, glfw::Action::Press, _) => unsafe {
+                        dbg!(gl::GetError());
+                    },
+                    glfw::WindowEvent::Key(glfw::Key::T, _, glfw::Action::Press, _) => {
+                        dbg!(glfw::get_error());
+                    }
+                    glfw::WindowEvent::Key(glfw::Key::U, _, glfw::Action::Press, _) => unsafe {
+                        gl::PolygonMode(gl::FRONT_AND_BACK, gl::LINE);
+                    },
+                    glfw::WindowEvent::Key(glfw::Key::I, _, glfw::Action::Press, _) => unsafe {
+                        gl::PolygonMode(gl::FRONT_AND_BACK, gl::FILL);
+                    },
+                    glfw::WindowEvent::Key(glfw::Key::O, _, glfw::Action::Press, _) => unsafe {
+                        gl::PolygonMode(gl::FRONT_AND_BACK, gl::POINT);
+                    },
                     _ => {}
                 }
             }

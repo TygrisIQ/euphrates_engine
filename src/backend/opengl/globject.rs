@@ -3,7 +3,6 @@ use gl::{
     types::{GLboolean, GLenum, GLfloat, GLint, GLsizei, GLsizeiptr},
 };
 
-//use num_traits::Num;
 use std::{ffi::c_void, mem, ptr};
 pub struct VAO(pub u32);
 pub struct VBO(u32);
@@ -20,10 +19,10 @@ pub fn vertex_attrib_pointer(
     normalized: GLboolean,
     attrib_type: GLenum,
     number_of_attributes_per_vertex: usize,
+    pointer: *const std::ffi::c_void,
 ) {
     unsafe {
         let stride = number_of_attributes_per_vertex * std::mem::size_of::<GLfloat>();
-        //TODO! solve the pointer issue
 
         gl::VertexAttribPointer(
             start_index,
@@ -31,7 +30,7 @@ pub fn vertex_attrib_pointer(
             attrib_type,
             normalized,
             stride as GLsizei,
-            ptr::null(),
+            pointer,
         );
         gl::EnableVertexAttribArray(start_index);
     }
@@ -67,6 +66,25 @@ pub fn upload_data_i32(buffertype: BufferType, data: &[i32]) {
             &data[0] as *const i32 as *const _,
             gl::STATIC_DRAW,
         );
+    }
+}
+impl EBO {
+    pub fn new() -> EBO {
+        let mut ebo = 0;
+        unsafe {
+            gl::GenBuffers(1, &mut ebo);
+            EBO(ebo)
+        }
+    }
+    pub fn bind(&self) {
+        unsafe {
+            gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, self.0);
+        }
+    }
+    pub fn unbind(&self) {
+        unsafe {
+            gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, 0);
+        }
     }
 }
 impl VBO {
