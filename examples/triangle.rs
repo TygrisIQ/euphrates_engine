@@ -5,8 +5,8 @@ fn main() {
     use backend::{opengl, window};
     use euphrates_engine::fs;
     let verticies: [f32; 9] = [
-        0.2, -0.2, 0.0, //left side
-        0.0, 0.4, 0.0, //top side
+        -0.5, -0.5, 0.0, //left side
+        0.0, 0.5, 0.0, //top side
         0.5, -0.5, 0.0, //right side
     ];
 
