@@ -1,3 +1,5 @@
+use std::{ffi::c_void, ptr};
+
 use euphrates_engine::{backend, EupWindow};
 
 fn main() {
@@ -17,7 +19,7 @@ fn main() {
     let mut vbo = globject::VBO::new();
     vao.bind();
     vbo.bind();
-    globject::vertex_attrib_pointer(0, 3, gl::FALSE, gl::FLOAT, 3);
+    globject::vertex_attrib_pointer(0, 3, gl::FALSE, gl::FLOAT, 3, ptr::null());
     globject::upload_data_f32(globject::BufferType::Vbo, &verticies);
     vbo.unbind();
     let loaded_shader = fs::fs::load_shader("shaders/triangle_vertex.glsl").unwrap();
