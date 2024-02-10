@@ -3,7 +3,7 @@
 ### Euphrates Engine
 ___
 *documenting my opengl journey with a "graphics" engine *
-#### run examples 
+#### to run examples from the examples directory 
 ` $ cargo run --example [example (window,...)] `
 
 ### while running examples use keys 
