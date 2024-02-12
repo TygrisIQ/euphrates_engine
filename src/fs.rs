@@ -16,7 +16,7 @@ pub mod fs {
 
 pub mod image_handle {
 
-    pub fn load_image_pixels<T>(path: &str) -> Vec<u8> {
+    pub fn load_image_pixels(path: &str) -> Vec<u8> {
         use std::path::Path;
         let path = Path::new(path);
         let img = image::open(&path).expect("FAILED TO OPEN IMAGE");
