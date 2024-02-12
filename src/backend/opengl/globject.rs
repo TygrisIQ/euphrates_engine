@@ -3,7 +3,7 @@ use gl::{
     types::{GLboolean, GLenum, GLfloat, GLint, GLsizei, GLsizeiptr},
 };
 
-use std::{ffi::c_void, mem, ptr};
+use std::mem;
 pub struct VAO(pub u32);
 pub struct VBO(u32);
 pub struct EBO(u32);
@@ -12,7 +12,7 @@ pub enum BufferType {
     Vbo,
     Ebo,
 }
-#[allow(dead_code)]
+
 pub fn vertex_attrib_pointer(
     start_index: u32,
     size: i32,

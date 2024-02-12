@@ -7,7 +7,7 @@ pub struct ShaderHandle {
     pub shader: u32,
     shader_type: GLenum,
 }
-
+#[derive(Debug)]
 pub struct ShaderProgram(u32);
 
 pub enum ShaderType {
