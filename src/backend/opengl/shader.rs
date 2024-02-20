@@ -83,20 +83,21 @@ impl ShaderHandle {
     pub fn check_compile_status(&self) {
         unsafe {
             let mut success = gl::FALSE as GLint;
-            let mut infoLog = Vec::with_capacity(512);
-            infoLog.set_len(512 - 1);
+            let mut info_log = Vec::with_capacity(512);
+            info_log.set_len(512 - 1);
             gl::GetShaderiv(self.shader, gl::COMPILE_STATUS, &mut success);
             if success != gl::TRUE as GLint {
                 gl::GetShaderInfoLog(
                     self.shader,
                     512,
                     ptr::null_mut(),
-                    infoLog.as_mut_ptr() as *mut GLchar,
+                    info_log.as_mut_ptr() as *mut GLchar,
                 );
+
                 dbg!(
                     "ERROR::COMPILING::{}::SHADER \n {}",
                     self.shader_type,
-                    std::str::from_utf8_unchecked(&infoLog)
+                    std::str::from_utf8_unchecked(&info_log)
                 );
             }
         }

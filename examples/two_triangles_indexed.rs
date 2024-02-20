@@ -23,6 +23,7 @@ fn main() {
     let ebo = globject::EBO::new();
     // bind the vao first so its stores vbo and ebo data, so they can be unbound safely later
     vao.bind();
+
     vbo.bind();
     ebo.bind();
     globject::vertex_attrib_pointer(0, 3, gl::FALSE, gl::FLOAT, 3, ptr::null());

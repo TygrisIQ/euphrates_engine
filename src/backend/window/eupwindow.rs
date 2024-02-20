@@ -4,7 +4,7 @@ pub mod eup_window {
     use glfw::{Context, Glfw};
 
     pub struct EupWindow {
-        glfw_handle: Glfw,
+        pub glfw_handle: Glfw,
         window_handle: glfw::PWindow,
         event_handle: glfw::GlfwReceiver<(f64, glfw::WindowEvent)>,
     }
@@ -65,6 +65,9 @@ pub mod eup_window {
                     },
                     glfw::WindowEvent::Key(glfw::Key::O, _, glfw::Action::Press, _) => unsafe {
                         gl::PolygonMode(gl::FRONT_AND_BACK, gl::POINT);
+                    },
+                    glfw::WindowEvent::Key(glfw::Key::N, _, glfw::Action::Press, _) => unsafe {
+                        gl::Enable(gl::TEXTURE_2D);
                     },
                     _ => {}
                 }

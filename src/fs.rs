@@ -1,5 +1,3 @@
-use std::ffi::CStr;
-
 pub mod fs {
     use std::{ffi::CString, io::Result, path::Path};
 
@@ -15,17 +13,33 @@ pub mod fs {
 }
 
 pub mod image_handle {
+    use image::{DynamicImage, GenericImageView};
 
-    pub fn load_image_pixels(path: &str) -> Vec<u8> {
+    pub fn load_image(path: &str) -> image::DynamicImage {
         use std::path::Path;
         let path = Path::new(path);
         let img = image::open(&path).expect("FAILED TO OPEN IMAGE");
-        //let pixel = img.into_rgba8().into_raw();
-        //check if the image is of rgba8 format, which will be used in our textures, if not panic
-        let buffer = match img {
-            image::DynamicImage::ImageRgba8(buffer) => buffer.to_vec(),
-            _ => panic!("unsupported image format!"),
-        };
-        buffer
+
+        return img;
+    }
+    pub fn image_pixels(img: &DynamicImage) -> Vec<u8> {
+        let bid = img.clone().into_rgb8();
+        let mut vect = Vec::new();
+        for pixel in bid.pixels() {
+            let rgb = pixel.0;
+            vect.push(rgb[0]);
+            vect.push(rgb[1]);
+            vect.push(rgb[2]);
+        }
+
+        return vect;
+    }
+    fn write_vector(v: &Vec<u8>) {
+        use std::fs::File;
+        use std::io::{Result, Write};
+        let mut file = File::create("img.txt").unwrap();
+        for &byte in v {
+            file.write_all(&[byte]).unwrap();
+        }
     }
 }

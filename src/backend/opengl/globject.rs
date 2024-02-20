@@ -12,7 +12,8 @@ pub enum BufferType {
     Vbo,
     Ebo,
 }
-
+/// wrapper around glVertexAttribPointer
+///
 pub fn vertex_attrib_pointer(
     start_index: u32,
     size: i32,
@@ -35,7 +36,9 @@ pub fn vertex_attrib_pointer(
         gl::EnableVertexAttribArray(start_index);
     }
 }
-
+///
+/// #### warpper aroung the glBufferData(target, size, data, draw) function
+///
 pub fn upload_data_f32(buffertype: BufferType, data: &[f32]) {
     let size = (data.len() * mem::size_of::<GLfloat>()) as GLsizeiptr;
     let buffer = match buffertype {
