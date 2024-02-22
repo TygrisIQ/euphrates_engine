@@ -1,3 +1,4 @@
+pub mod debug;
 pub mod globject;
 pub mod shader;
 pub mod texture;

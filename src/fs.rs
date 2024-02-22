@@ -13,31 +13,34 @@ pub mod fs {
 }
 
 pub mod image_handle {
-    use image::{DynamicImage, GenericImageView};
 
+    use image::{self, DynamicImage, GenericImage};
+
+    //loads image as a Dynamic image enum
     pub fn load_image(path: &str) -> image::DynamicImage {
         use std::path::Path;
         let path = Path::new(path);
-        let img = image::open(&path).expect("FAILED TO OPEN IMAGE");
+        let img = image::open(path).expect("FAILED TO OPEN IMAGE");
 
-        return img;
+        img
     }
     pub fn image_pixels(img: &DynamicImage) -> Vec<u8> {
-        let bid = img.clone().into_rgb8();
-        let mut vect = Vec::new();
-        for pixel in bid.pixels() {
-            let rgb = pixel.0;
-            vect.push(rgb[0]);
-            vect.push(rgb[1]);
-            vect.push(rgb[2]);
-        }
+        let bid = img.to_rgb8();
+        let data: Vec<u8> = bid
+            .pixels()
+            .flat_map(|pixel| vec![pixel[0], pixel[1], pixel[2]])
+            .collect();
 
-        return vect;
+        return data;
     }
-    fn write_vector(v: &Vec<u8>) {
+    fn write_data(v: &Vec<u8>) {
         use std::fs::File;
         use std::io::{Result, Write};
-        let mut file = File::create("img.txt").unwrap();
+
+        print!("{}{}{}", v[0], v[1], v[2]);
+
+        let mut file = File::create("target/img.txt").unwrap();
+
         for &byte in v {
             file.write_all(&[byte]).unwrap();
         }

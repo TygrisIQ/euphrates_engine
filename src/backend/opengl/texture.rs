@@ -1,15 +1,11 @@
 use std::ffi::c_void;
 
-use gl::{self, types::GLenum};
-pub enum TextureWrap {
-    S = gl::TEXTURE_WRAP_S as isize,
-    T = gl::TEXTURE_WRAP_T as isize,
-}
-pub enum TextureFiltering {
-    NEAREST,
-    LINEAR,
-}
-pub struct TextureHandle(u32);
+use gl::{
+    self,
+    types::{GLenum, GLint, GLsizei},
+};
+
+pub struct TextureHandle(pub u32);
 pub fn texture_parameter_2d() {
     unsafe {
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32);
@@ -55,6 +51,11 @@ impl TextureHandle {
     pub fn bind(&self) {
         unsafe {
             gl::BindTexture(gl::TEXTURE_2D, self.0);
+        }
+    }
+    pub fn active(&self) {
+        unsafe {
+            gl::ActiveTexture(self.0);
         }
     }
     pub fn unbind(&self) {

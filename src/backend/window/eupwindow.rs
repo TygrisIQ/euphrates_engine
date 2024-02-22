@@ -22,6 +22,7 @@ pub mod eup_window {
             let (mut window, events) = glfw
                 .create_window(w, h, title, glfw::WindowMode::Windowed)
                 .expect("");
+            glfw.window_hint(glfw::WindowHint::OpenGlDebugContext(true));
             window.make_current();
             window.set_key_polling(true);
             window.set_framebuffer_size_polling(true);
@@ -66,9 +67,7 @@ pub mod eup_window {
                     glfw::WindowEvent::Key(glfw::Key::O, _, glfw::Action::Press, _) => unsafe {
                         gl::PolygonMode(gl::FRONT_AND_BACK, gl::POINT);
                     },
-                    glfw::WindowEvent::Key(glfw::Key::N, _, glfw::Action::Press, _) => unsafe {
-                        gl::Enable(gl::TEXTURE_2D);
-                    },
+
                     _ => {}
                 }
             }

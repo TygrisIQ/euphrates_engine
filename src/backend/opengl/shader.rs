@@ -59,7 +59,7 @@ impl ShaderProgram {
     }
 }
 impl ShaderHandle {
-    pub fn create_shader(source: &CString, shader_type: ShaderType) -> ShaderHandle {
+    pub fn new_and_compile(source: &CString, shader_type: ShaderType) -> ShaderHandle {
         unsafe {
             let shadertype = match shader_type {
                 ShaderType::Vertex => gl::VERTEX_SHADER,

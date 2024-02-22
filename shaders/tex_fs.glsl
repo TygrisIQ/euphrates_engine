@@ -1,9 +1,8 @@
-#version 330 core
+#version 440 core
 
-
-in vec4 ocolor;
-in vec2 texcoord;
 out vec4 Fragcolor;
+in vec2 texcoord;
+
 uniform sampler2D ourtexture;
 void main(){
   Fragcolor = texture(ourtexture, texcoord);
