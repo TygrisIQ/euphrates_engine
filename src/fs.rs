@@ -1,4 +1,4 @@
-pub mod fs {
+pub mod file {
     use std::{ffi::CString, io::Result, path::Path};
 
     pub fn shader_to_cstring(shader: String) -> Result<CString> {

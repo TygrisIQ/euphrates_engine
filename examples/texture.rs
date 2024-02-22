@@ -90,12 +90,12 @@ fn main() {
 }
 
 fn do_shaders() -> ShaderProgram {
-    let shadersource = fs::fs::load_shader("shaders/tex_vs.glsl").unwrap();
-    let cstr_vs = fs::fs::shader_to_cstring(shadersource).unwrap();
+    let shadersource = fs::file::load_shader("shaders/tex_vs.glsl").unwrap();
+    let cstr_vs = fs::file::shader_to_cstring(shadersource).unwrap();
     let vertex = ShaderHandle::new_and_compile(&cstr_vs, opengl::shader::ShaderType::Vertex);
     vertex.check_compile_status();
-    let shadersource = fs::fs::load_shader("shaders/tex_fs.glsl").unwrap();
-    let cstr_fs = fs::fs::shader_to_cstring(shadersource).unwrap();
+    let shadersource = fs::file::load_shader("shaders/tex_fs.glsl").unwrap();
+    let cstr_fs = fs::file::shader_to_cstring(shadersource).unwrap();
     let fragment = ShaderHandle::new_and_compile(&cstr_fs, opengl::shader::ShaderType::Fragment);
     fragment.check_compile_status();
     let program = ShaderProgram::new();

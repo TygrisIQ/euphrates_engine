@@ -38,15 +38,15 @@ fn main() {
     //(location = 1) <-- this being the idnex that we are sending the color attributes to
     globject::upload_data_f32(globject::BufferType::Vbo, &verticies);
     vbo.unbind();
-    let loaded_shader = fs::fs::load_shader("shaders/ct_vertex.glsl").unwrap();
+    let loaded_shader = fs::file::load_shader("shaders/ct_vertex.glsl").unwrap();
     dbg!(&loaded_shader);
-    let shader_final = fs::fs::shader_to_cstring(loaded_shader).unwrap();
+    let shader_final = fs::file::shader_to_cstring(loaded_shader).unwrap();
     let vertex_shader =
         shader::ShaderHandle::new_and_compile(&shader_final, shader::ShaderType::Vertex);
     vertex_shader.check_compile_status();
-    let fragment_loaded_shader = fs::fs::load_shader("shaders/ct_fragment.glsl").unwrap();
+    let fragment_loaded_shader = fs::file::load_shader("shaders/ct_fragment.glsl").unwrap();
     dbg!(&fragment_loaded_shader);
-    let shader_final = fs::fs::shader_to_cstring(fragment_loaded_shader).unwrap();
+    let shader_final = fs::file::shader_to_cstring(fragment_loaded_shader).unwrap();
     let fragment_shader =
         shader::ShaderHandle::new_and_compile(&shader_final, shader::ShaderType::Fragment);
     fragment_shader.check_compile_status();

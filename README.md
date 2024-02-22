@@ -4,7 +4,7 @@
 ___
 *documenting my opengl journey with a "graphics" engine *
 #### to run examples from the examples directory 
-` $ cargo run --example [example (window,...)] `
+`  $ cargo run --example  `
 
 ### while running examples use keys 
 
