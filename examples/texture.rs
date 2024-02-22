@@ -8,12 +8,17 @@ use euphrates_engine::{
                 self, upload_data_f32, upload_data_i32, vertex_attrib_pointer, EBO, VAO, VBO,
             },
             shader::{ShaderHandle, ShaderProgram},
+            texture::{
+                generate_mipmap, generate_texture, texture_filter_2d, texture_parameter_2d,
+                TextureHandle,
+            },
         },
         *,
     },
     fs, EupWindow,
 };
 use gl::{types::GLfloat, DrawElements, ShaderSource};
+use image::GenericImageView;
 #[allow(dead_code)]
 fn main() {
     let mut window = EupWindow::new("TEXTURE.", 640, 480, (3, 3));
@@ -57,38 +62,19 @@ fn main() {
             std::ptr::null(),
         );
     }
-    let tex = unsafe {
-        let mut tex: u32 = 0;
-        gl::GenTextures(1, &mut tex);
-        gl::BindTexture(gl::TEXTURE_2D, tex);
-        gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32);
-        gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::REPEAT as i32);
-        gl::TexParameteri(
-            gl::TEXTURE_2D,
-            gl::TEXTURE_MIN_FILTER,
-            gl::LINEAR_MIPMAP_LINEAR as i32,
-        );
-        gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
-        let img = fs::image_handle::load_image("texture/wall.jpg");
-        let pixels = fs::image_handle::image_pixels(&img);
-        gl::ActiveTexture(gl::TEXTURE0);
-        gl::TexImage2D(
-            gl::TEXTURE_2D,
-            0,
-            gl::RGB as i32,
-            img.width() as i32,
-            img.height() as i32,
-            0,
-            gl::RGB,
-            gl::UNSIGNED_BYTE,
-            &pixels[0] as *const u8 as *const c_void,
-        );
-        gl::GenerateMipmap(gl::TEXTURE_2D);
-
-        tex
-    };
-    vao.unbind();
-    vbo.unbind();
+    //texture
+    //
+    let texture = TextureHandle::new();
+    texture.bind();
+    texture_parameter_2d();
+    texture_filter_2d();
+    let img = fs::image_handle::load_image("texture/wall.jpg");
+    let pixels = fs::image_handle::image_pixels(&img);
+    generate_texture(img.width() as i32, img.height() as i32, &pixels);
+    generate_mipmap();
+    //  vao.unbind();
+    //vbo.unbind();
+    //texture.unbind();
 
     while !window.should_close() {
         unsafe {

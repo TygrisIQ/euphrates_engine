@@ -26,13 +26,13 @@ fn main() {
     dbg!(&loaded_shader);
     let shader_final = fs::fs::shader_to_cstring(loaded_shader).unwrap();
     let vertex_shader =
-        shader::ShaderHandle::create_shader(&shader_final, shader::ShaderType::Vertex);
+        shader::ShaderHandle::new_and_compile(&shader_final, shader::ShaderType::Vertex);
     vertex_shader.check_compile_status();
     let fragment_loaded_shader = fs::fs::load_shader("shaders/triangle_fragment.glsl").unwrap();
     dbg!(&fragment_loaded_shader);
     let shader_final = fs::fs::shader_to_cstring(fragment_loaded_shader).unwrap();
     let fragment_shader =
-        shader::ShaderHandle::create_shader(&shader_final, shader::ShaderType::Fragment);
+        shader::ShaderHandle::new_and_compile(&shader_final, shader::ShaderType::Fragment);
     fragment_shader.check_compile_status();
     let shader_program = shader::ShaderProgram::new();
     shader_program.attach_shader(vertex_shader.shader);
