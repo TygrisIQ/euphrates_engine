@@ -3,13 +3,14 @@ use std::ffi::c_void;
 use gl;
 
 pub struct TextureHandle(pub u32);
+/// wrapper around the `gl::TexParameteri()`, wraps textures S,T
 pub fn texture_parameter_2d() {
     unsafe {
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32);
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::REPEAT as i32);
     }
 }
-
+/// wrapper around `gl::TexParameteri()`, for setting up 2D texture filtering
 pub fn texture_filter_2d() {
     unsafe {
         gl::TexParameteri(
@@ -20,6 +21,7 @@ pub fn texture_filter_2d() {
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
     }
 }
+/// calls 'glTexImage2D' with the provided arguments
 pub fn generate_texture(w: i32, h: i32, data: &[u8]) {
     unsafe {
         gl::TexImage2D(
@@ -61,6 +63,7 @@ impl TextureHandle {
         }
     }
 }
+/// calls `glGenerateMipmap` for texture 2D
 pub fn generate_mipmap() {
     unsafe {
         gl::GenerateMipmap(gl::TEXTURE_2D);

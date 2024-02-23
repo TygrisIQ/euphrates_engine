@@ -6,6 +6,8 @@ ___
 #### to run examples from the examples directory 
 `  $ cargo run --example  `
 
+#### open documentation
+`  $ cargo doc --open     `
 ### while running examples use keys 
 
 - T : print errors with glfw 

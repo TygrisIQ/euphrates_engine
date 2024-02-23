@@ -2,7 +2,7 @@ extern crate glfw;
 
 pub mod eup_window {
     use glfw::{Context, Glfw};
-
+    /// window struct, glfw handle (public), other handlers (private)
     pub struct EupWindow {
         pub glfw_handle: Glfw,
         window_handle: glfw::PWindow,
@@ -32,9 +32,11 @@ pub mod eup_window {
                 event_handle: events,
             };
         }
+        /// ## load opengl function pointers
         pub fn load_gl(&mut self) {
             gl::load_with(|s| self.window_handle.get_proc_address(s) as *const _);
         }
+        /// ## poll events, handle events, tell window to swap buffers
         pub fn update(&mut self) {
             self.glfw_handle.poll_events();
             self.handle_events();
@@ -43,6 +45,7 @@ pub mod eup_window {
         pub fn should_close(&self) -> bool {
             return self.window_handle.should_close();
         }
+        /// ## this method is called from the update method, it handles changes in the FramebufferSize and key presses
         fn handle_events(&mut self) {
             for (_, ev) in glfw::flush_messages(&self.event_handle) {
                 match ev {

@@ -3,6 +3,7 @@ use std::ptr;
 use gl::types::{GLchar, GLenum, GLint};
 use std::ffi::CString;
 extern crate gl;
+
 pub struct ShaderHandle {
     pub shader: u32,
     shader_type: GLenum,

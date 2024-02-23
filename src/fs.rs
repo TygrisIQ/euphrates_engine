@@ -1,9 +1,10 @@
 pub mod file {
     use std::{ffi::CString, io::Result, path::Path};
-
+    /// # convert string to CString
     pub fn shader_to_cstring(shader: String) -> Result<CString> {
         Ok(CString::new(shader.as_bytes()).unwrap())
     }
+    /// load shader code from file
     pub fn load_shader(shader_name: &str) -> Result<String> {
         use std::fs;
 
@@ -16,7 +17,7 @@ pub mod image_handle {
 
     use image::{self, DynamicImage, GenericImage};
 
-    //loads image as a Dynamic image enum
+    ///loads image as a Dynamic image enum
     pub fn load_image(path: &str) -> image::DynamicImage {
         use std::path::Path;
         let path = Path::new(path);
@@ -24,6 +25,8 @@ pub mod image_handle {
 
         img
     }
+    /// # return a `Vec<u8>` of the image pixels
+    /// Vec[r,g,b]
     pub fn image_pixels(img: &DynamicImage) -> Vec<u8> {
         let bid = img.to_rgb8();
         let data: Vec<u8> = bid

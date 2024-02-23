@@ -1,8 +1,7 @@
 use gl::types::{GLchar, GLenum, GLsizei, GLuint};
 
-/// Wrapper for the DebugMessageCallback
+/// # Wrapper for the DebugMessageCallback
 /// requires opengl 4.4 to be supported by the gpu
-
 pub extern "system" fn gl_debug_callback_wrapper(
     source: GLenum,
     type_: GLenum,
