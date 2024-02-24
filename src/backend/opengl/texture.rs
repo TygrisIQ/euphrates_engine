@@ -37,6 +37,32 @@ pub fn generate_texture(w: i32, h: i32, data: &[u8]) {
         )
     }
 }
+pub fn generate_texture_rgba(w: i32, h: i32, data: &[u8]) {
+    unsafe {
+        gl::TexImage2D(
+            gl::TEXTURE_2D,
+            0,
+            gl::RGBA as i32,
+            w,
+            h,
+            0,
+            gl::RGBA,
+            gl::UNSIGNED_BYTE,
+            &data[0] as *const u8 as *const c_void,
+        )
+    }
+}
+pub fn active_texture(current: u8) {
+    let active = match current {
+        0 => gl::TEXTURE0,
+        1 => gl::TEXTURE1,
+        2 => gl::TEXTURE2,
+        _ => gl::TEXTURE0,
+    };
+    unsafe {
+        gl::ActiveTexture(active);
+    }
+}
 impl TextureHandle {
     pub fn new() -> TextureHandle {
         unsafe {
@@ -52,11 +78,7 @@ impl TextureHandle {
             gl::BindTexture(gl::TEXTURE_2D, self.0);
         }
     }
-    pub fn active(&self) {
-        unsafe {
-            gl::ActiveTexture(self.0);
-        }
-    }
+
     pub fn unbind(&self) {
         unsafe {
             gl::BindTexture(gl::TEXTURE_2D, 0);

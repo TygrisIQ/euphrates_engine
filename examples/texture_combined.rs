@@ -1,4 +1,7 @@
-use std::{ffi::c_void, mem};
+use std::{
+    ffi::{c_void, CString},
+    mem,
+};
 
 use euphrates_engine::{
     backend::{
@@ -9,15 +12,19 @@ use euphrates_engine::{
             },
             shader::{ShaderHandle, ShaderProgram},
             texture::{
-                generate_mipmap, generate_texture, texture_filter_2d, texture_parameter_2d,
-                TextureHandle,
+                self, generate_mipmap, generate_texture, generate_texture_rgba, texture_filter_2d,
+                texture_parameter_2d, TextureHandle,
             },
         },
         *,
     },
-    fs, EupWindow,
+    fs::{self, image_handle},
+    EupWindow,
 };
-use gl::{types::GLfloat, DrawElements, ShaderSource};
+use gl::{
+    types::{GLchar, GLfloat, GLint},
+    DrawElements, ShaderSource,
+};
 use image::GenericImageView;
 #[allow(dead_code)]
 fn main() {
@@ -25,13 +32,13 @@ fn main() {
     window.load_gl();
     // first 3 values are position of the vertex and the next 2 are the texture coordinates
     let verticies: [f32; 20] = [
-        -0.5, -0.5, 0.0, //v1 pos
+        -0.8, -0.8, 0.0, //v1 pos
         0.0, 0.0, //v1 tex
-        -0.5, 0.5, 0.0, //v2 position
+        -0.8, 0.8, 0.0, //v2 position
         0.0, 1.0, //v2 tex
-        0.5, 0.5, 0.0, //v3 position
+        0.8, 0.8, 0.0, //v3 position
         1.0, 1.0, //v3 tex coords
-        0.5, -0.5, 0.0, //v4 position
+        0.8, -0.8, 0.0, //v4 position
         1.0, 0.0,
     ];
     //indicies are the order in which verticies are drawn, im trying to draw a rectangle with 4
@@ -65,26 +72,68 @@ fn main() {
     //texture
     //
     let texture = TextureHandle::new();
+    texture::active_texture(0);
     texture.bind();
     texture_parameter_2d();
     texture_filter_2d();
     let img = fs::image_handle::load_image("texture/wall.jpg");
-    let pixels = fs::image_handle::image_pixels(&img);
+    let imgii = fs::image_handle::load_image("texture/face.png");
+    let pixels = fs::image_handle::image_pixels_rbg(&img);
+    let pixelsii = image_handle::image_pixels_rgba(&imgii);
     generate_texture(img.width() as i32, img.height() as i32, &pixels);
+    generate_mipmap();
+    let texture2 = TextureHandle::new();
+    texture::active_texture(1);
+    texture2.bind();
+    texture_parameter_2d();
+    texture_filter_2d();
+    generate_texture_rgba(imgii.width() as i32, imgii.height() as i32, &pixelsii);
     generate_mipmap();
     //  vao.unbind();
     //vbo.unbind();
     //texture.unbind();
-
+    let location1 = CString::new("texture1").unwrap();
+    let location2 = CString::new("texture2").unwrap();
+    let fex = CString::new("fex").unwrap();
     while !window.should_close() {
+        let mut visibility: f32 = 0.2;
         unsafe {
             gl::ClearColor(0.2, 0.2, 0.2, 1.0);
             gl::Clear(gl::COLOR_BUFFER_BIT);
             shader_program.use_program();
+            gl::Uniform1f(
+                gl::GetUniformLocation(shader_program.program_id(), fex.as_ptr()),
+                visibility,
+            );
+            gl::Uniform1i(
+                gl::GetUniformLocation(shader_program.program_id(), location2.as_ptr()),
+                1 as GLint,
+            );
+            gl::Uniform1i(
+                gl::GetUniformLocation(shader_program.program_id(), location1.as_ptr()),
+                0,
+            );
+
             vao.bind();
 
             DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, std::ptr::null());
         }
+        for (_, ev) in glfw::flush_messages(&window.event_handle) {
+            match ev {
+                glfw::WindowEvent::Key(glfw::Key::Up, _, glfw::Action::Press, _) => {
+                    visibility = visibility + 0.1;
+                }
+                glfw::WindowEvent::Key(glfw::Key::Down, _, glfw::Action::Press, _) => {
+                    visibility = visibility - 0.1;
+                }
+                glfw::WindowEvent::Key(glfw::Key::Q, _, glfw::Action::Press, _) => {
+                    dbg!("HELLO!");
+                }
+
+                _ => {}
+            }
+        }
+
         window.update();
     }
 }

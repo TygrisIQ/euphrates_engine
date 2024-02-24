@@ -6,7 +6,7 @@ pub mod eup_window {
     pub struct EupWindow {
         pub glfw_handle: Glfw,
         window_handle: glfw::PWindow,
-        event_handle: glfw::GlfwReceiver<(f64, glfw::WindowEvent)>,
+        pub event_handle: glfw::GlfwReceiver<(f64, glfw::WindowEvent)>,
     }
     impl EupWindow {
         pub fn new(title: &str, w: u32, h: u32, context_version: (u32, u32)) -> EupWindow {
@@ -32,6 +32,9 @@ pub mod eup_window {
                 event_handle: events,
             };
         }
+        pub fn return_events(&mut self) -> &mut glfw::GlfwReceiver<(f64, glfw::WindowEvent)> {
+            &mut self.event_handle
+        }
         /// ## load opengl function pointers
         pub fn load_gl(&mut self) {
             gl::load_with(|s| self.window_handle.get_proc_address(s) as *const _);
@@ -42,6 +45,7 @@ pub mod eup_window {
             self.handle_events();
             self.window_handle.swap_buffers();
         }
+
         pub fn should_close(&self) -> bool {
             return self.window_handle.should_close();
         }
