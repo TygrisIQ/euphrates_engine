@@ -15,7 +15,7 @@ pub mod file {
 
 pub mod image_handle {
 
-    use image::{self, DynamicImage, GenericImage, GenericImageView};
+    use image::{self, DynamicImage};
 
     ///loads image as a Dynamic image enum,
     ///see <https://docs.rs/image/0.24.9/image/enum.DynamicImage.html>
@@ -44,17 +44,5 @@ pub mod image_handle {
             .collect();
 
         return data;
-    }
-    fn write_data(v: &Vec<u8>) {
-        use std::fs::File;
-        use std::io::{Result, Write};
-
-        print!("{}{}{}", v[0], v[1], v[2]);
-
-        let mut file = File::create("target/img.txt").unwrap();
-
-        for &byte in v {
-            file.write_all(&[byte]).unwrap();
-        }
     }
 }
