@@ -4,10 +4,10 @@
 ___
 *documenting my opengl journey with a "graphics" engine *
 #### to run examples from the examples directory 
-`  $ cargo run --example  `
+```  $ cargo run --example  ```
 
 #### open documentation
-`  $ cargo doc --open     `
+```  $ cargo doc --open     ```
 ### while running examples use keys 
 
 - T : print errors with glfw 
