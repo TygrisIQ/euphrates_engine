@@ -3,11 +3,14 @@
 ### Euphrates Engine
 ___
 *documenting my opengl journey with a "graphics" engine *
-#### to run examples from the examples directory 
+### to run examples from the examples directory 
 ```  $ cargo run --example  ```
 
-#### open documentation
+### open documentation
+
 ```  $ cargo doc --open     ```
+
+
 ### while running examples use keys 
 
 - T : print errors with glfw 
