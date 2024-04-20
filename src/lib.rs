@@ -12,7 +12,7 @@ mod tests {
         EupWindow,
     };
     fn load_gl() -> EupWindow {
-        let mut window = eupwindow::eup_window::EupWindow::new("TEST", 20, 20, (3, 3));
+        let mut window = eupwindow::sup_window::EupWindow::new("TEST", 20, 20, (3, 3));
         window.load_gl();
         window
     }

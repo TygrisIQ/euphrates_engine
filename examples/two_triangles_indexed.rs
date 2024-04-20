@@ -55,7 +55,7 @@ fn main() {
     while !window.should_close() {
         unsafe {
             //dbg!(gl::GetError());
-            gl::ClearColor(0.1, 0.2, 0.1, 1.0);
+            gl::ClearColor(1.0, 0.65, 0.0, 1.0);
             gl::Clear(gl::COLOR_BUFFER_BIT);
             shader_program.use_program();
             vao.bind();

@@ -31,7 +31,7 @@ fn main() {
         gl::FALSE,
         gl::FLOAT,
         6,
-        (3 * mem::size_of::<GLfloat>() * 3) as *const std::ffi::c_void,
+        (3 * mem::size_of::<GLfloat>()) as *const std::ffi::c_void,
     );
     //the first argument of the vertex_attrib_pointer is the index at which the shader will find
     //the data that we are sending, we will specify this data in the vertex shader as layout

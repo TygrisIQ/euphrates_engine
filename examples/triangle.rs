@@ -45,7 +45,7 @@ fn main() {
     println!("PROGRAM ID : {}", shader_program.program_id());
     while !window.should_close() {
         unsafe {
-            gl::ClearColor(0.3, 0.3, 0.3, 1.0);
+            gl::ClearColor(1.0, 0.65, 0.0001, 1.0);
             gl::Clear(gl::COLOR_BUFFER_BIT);
             shader_program.use_program();
             vao.bind();
