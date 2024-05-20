@@ -36,7 +36,7 @@ pub mod image_handle {
         return data;
     }
     /// # return a `Vec<u8>` of *RGB* values from an image
-    pub fn image_pixels_rbg(img: &DynamicImage) -> Vec<u8> {
+    pub fn image_pixels_rgb(img: &DynamicImage) -> Vec<u8> {
         let bid = img.to_rgb8();
         let data: Vec<u8> = bid
             .pixels()

@@ -77,8 +77,8 @@ fn main() {
     texture_parameter_2d();
     texture_filter_2d();
     let img = fs::image_handle::load_image("texture/wall.jpg");
-    let imgii = fs::image_handle::load_image("texture/face.png");
-    let pixels = fs::image_handle::image_pixels_rbg(&img);
+    let imgii = fs::image_handle::load_image("texture/steve.png");
+    let pixels = fs::image_handle::image_pixels_rgb(&img);
     let pixelsii = image_handle::image_pixels_rgba(&imgii);
     generate_texture(img.width() as i32, img.height() as i32, &pixels);
     generate_mipmap();
