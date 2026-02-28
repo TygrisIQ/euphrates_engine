@@ -5,7 +5,7 @@ ___
 *documenting my opengl journey with a "graphics" engine *
 
 
-![Alt text](show.png)
+![Alt text](showii.png)
 ### to run examples from the examples directory 
 ```  $ cargo run --example  ```
 
