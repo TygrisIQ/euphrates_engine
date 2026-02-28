@@ -17,6 +17,7 @@ pub mod eup_window {
             ));
             glfw.window_hint(glfw::WindowHint::OpenGlProfile(
                 glfw::OpenGlProfileHint::Core,
+                            
             ));
             glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
             let (mut window, events) = glfw
@@ -28,6 +29,7 @@ pub mod eup_window {
             window.set_framebuffer_size_polling(true);
             return EupWindow {
                 glfw_handle: glfw,
+                
                 window_handle: window,
                 event_handle: events,
             };
@@ -42,12 +44,16 @@ pub mod eup_window {
         /// ## poll events, handle events, tell window to swap buffers
         pub fn update(&mut self) {
             self.glfw_handle.poll_events();
-            self.handle_events();
+            //self.handle_events();
             self.window_handle.swap_buffers();
         }
 
         pub fn should_close(&self) -> bool {
             return self.window_handle.should_close();
+        }
+
+        pub fn set_should_close(&mut self, value: bool){
+            self.window_handle.set_should_close(value);
         }
         /// ## this method is called from the update method, it handles changes in the FramebufferSize and key presses
         fn handle_events(&mut self) {

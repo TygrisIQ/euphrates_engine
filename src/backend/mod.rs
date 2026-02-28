@@ -4,3 +4,5 @@ pub mod opengl;
 /// ## glfw window abstraction, event handlers and context creation, I may replace glfw with glutin later or have them both
 /// as window backends
 pub mod window;
+/// ## Camera abstraction 
+pub mod camera;
